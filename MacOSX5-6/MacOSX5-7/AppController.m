@@ -27,9 +27,13 @@
 }
 
 -(IBAction)pressCountCharactersBtn:(id)sender{
+    //inputTextFieldから文字を取ってくる
     NSString *string = [inputTextField stringValue];
+    //inputTextFieldの文字数を数える
     NSInteger length = [string length];
+    //outputTextFieldに入れる文字を作る
     NSString *outputString = [NSString stringWithFormat:@"この'%@'の文字数は%dです",string,length];
+    //outputTextFieldに文字を入れる。
     [outputTextField setStringValue:outputString];
 }
 
