@@ -7,6 +7,7 @@
 //
 
 #import "MyDocument.h"
+#import "Person.h"
 
 @implementation MyDocument
 
@@ -67,5 +68,30 @@
     }
     return YES;
 }
+
+-(void)insertObject:(Person *)p inEmployeesAtIndex:(int)index{
+    NSLog(@"add %@ to %@",p,employees);
+    NSUndoManager *undo = [self undoManager];
+    [[undo prepareWithInvocationTarget:self] removeObjectFromEmployeesAtIndex:index];
+    if (![undo isUndoing]) {
+        [undo setActionName:@"Insert Person"];
+    }
+    
+    //Persopnを配列に追加する
+    [employees insertObject:p atIndex:index];
+}
+
+-(void)removeObjectFromEmployeesAtIndex:(int)index{
+    Person *p = [employees objectAtIndex:index];
+    NSLog(@"removing %@ from %@", p , employees);
+    NSUndoManager *undo = [self undoManager];
+    [[undo prepareWithInvocationTarget:self] insertObject:p inEmployeesAtIndex:index];
+    if (![undo isUndoing]) {
+        [undo setActionName:@"Delete Person"];
+    }
+    
+    [employees removeObjectAtIndex:index];
+}
+
 
 @end
